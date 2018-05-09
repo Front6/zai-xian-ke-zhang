@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-    <!-- 作者：mark_wang  QQ:275881702 -->  
+    <!-- 作者：mark_wang  QQ:1246107973 -->  
 <html><head>
 		<meta http-equiv="Content-Type" content="text/html"; charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no">
@@ -14,7 +14,7 @@ $appKey = '1a94549fe97b7e01edee5e6a6828f4cc';   //微信支付申请对应的公
 $apiKey = 'zxkz963852741zxkz741852963fjf666';   //https://pay.weixin.qq.com 帐户设置-安全设置-API安全-API密钥-设置API密钥
 //①、获取用户openid
 $wxPay = new WxpayService($mchid,$appid,$appKey,$apiKey);
-$openId = $wxPay->GetOpenid();      //获取openid
+$openId = $_GET['opid'];      //获取openid
 if(!$openId) exit('获取openid失败');
 //②、统一下单
 $outTradeNo = uniqid();     //你自己的商品订单号
@@ -113,7 +113,7 @@ border-radius:3px;
     <font color="#9ACD32"><b>该笔订单支付金额为<span style="color:#f00;font-size:20px"><?php echo $payAmount?>元</span>钱,请核对以下信息后再进行支付:</b></font><br/><br/>
 		</div>
 		<?php
-		echo "收件人:".$_GET['realname'];
+		echo "收件人:".$_GET['sjr'];
 		?>
 	<div align="center">
         <button class="address_sub2" style="width: 95%;background-color:red;color:white;font-weight:bold" onclick="callpay()" >立即支付</button>
