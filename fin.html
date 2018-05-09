@@ -11,56 +11,7 @@
  <link rel="stylesheet" type="text/css" href="css/style.css">
     <!-- 从官方下载的文件放在项目的 jquery-mobile 目录中 -->  
 <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
-<script>
-    function jc() {
-	if (form1.fs.value=="yj"){
-        if(form1.kzt.value=="") {
-            alert("请选择刻章类型！");form1.kzt.focus();return false;
-        }
-        if(form1.fs.value=="") {
-            alert("请选择收件方式！");form1.fs.focus();return false;
-        }
-		if(form1.realname.value==""||form1.realname.value==" "){
-			alert("收件人不能为空！");form1.realname.focus();return false;
-		}
-		if(form1.mobile.value==""){
-			alert("联系电话不能为空！");form1.mobile.focus();return false;
-		}
-		if(form1.s_province.value=="省份"){
-			alert("请选择省份！");return false;
-		}
-		if(form1.s_city.value=="地级市"){
-			alert("请选择地级市！");return false;
-		}
-		if(form1.s_county.value=="市、县级市"){
-			alert("请选择市、县级市！");return false;
-		}
-		if(form1.address.value=="" || form1.address.value==" "){
-			alert("详细地址不能为空");form1.address.focus();return false;
-		}
-		}
-		else{
-		 if(form1.kzt.value=="") {
-            alert("请选择刻章类型！");form1.kzt.focus();return false;
-        }
-        if(form1.fs.value=="") {
-            alert("请选择收件方式！");form1.fs.focus();return false;
-        }
-		if(form1.realname.value==""||form1.realname.value==" "){
-			alert("收件人不能为空！");form1.realname.focus();return false;
-		}
-		if(form1.mobile.value==""){
-			alert("联系电话不能为空！");form1.mobile.focus();return false;
-		}
-		}
-    }
-    function sd() {
-        if(form1.fs.value=="yj") {
-            document.getElementById("dz").style.display = "";
-        }
-        else{document.getElementById("dz").style.display = "none"};
-    }
-</script>
+
 <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 <style type="text/css">
     body {margin:0px; background:#efefef; font-family:'微软雅黑'; -moz-appearance:none;}
@@ -120,7 +71,7 @@ border-radius:3px;
 			<br><h1>购买成功</h1><br>
 		</div>
         <center>
-    <input type="submit" class="address_sub2" style="width: 95%;background-color:red;color:white;font-weight:bold" onclick="return jc()" value="点击看查订单">
+    <input type="submit" class="address_sub2" style="width: 95%;background-color:red;color:white;font-weight:bold" value="点击看查订单">
         </center>
         <div id="toastId2" class="toasttj2" style="display: none; opacity: 0;"></div>
 <div id="BgDiv1"></div>
