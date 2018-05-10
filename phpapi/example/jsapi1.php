@@ -113,22 +113,8 @@ border-radius:3px;
     <font color="#9ACD32"><b>该笔订单支付金额为<span style="color:#f00;font-size:20px"><?php echo $payAmount?>元</span>钱,请核对以下信息后再进行支付:</b></font><br/><br/>
 		</div>
 		<?php
-		if($_GET['fs']=="yj"){//判断邮寄和自取
-		echo "您选择的刻章类型是:刻章".$_GET['kzt']."<br>";
-		echo "您选择的收件方式是邮寄<br>";
 		echo "收件人:".$_GET['sjr']."<br>";
 		echo "联系电话:".$_GET['mobile']."<br>";
-		echo "省份:".$_GET['s_province']."<br>";
-		echo "地级市:".$_GET['s_city']."<br>";
-		echo "市、县级市:".$_GET['s_county']."<br>";
-		echo "详细地址:".$_GET['address']."<br>";
-		}
-		else{
-		echo "您选择的刻章类型是:刻章".$_GET['kzt']."<br>";
-		echo "您选择的收件方式是自取<br>";
-		echo "收件人:".$_GET['sjr']."<br>";
-		echo "联系电话:".$_GET['mobile']."<br>";
-		}
 		?>
 	<div align="center">
         <button class="address_sub2" style="width: 95%;background-color:red;color:white;font-weight:bold" onclick="callpay()" >立即支付</button>
