@@ -371,11 +371,30 @@ class WxpayService
                 <div class="line">
                     <select name="kzt" style="background-color: white">
                         <option value="">请选择刻章类型</option>
-                        <option value="1">刻章1</option>
-                        <option value="2">刻章2</option>
-                        <option value="3">刻章3</option>
+                        <option value="公章">公章</option>
+                        <option value="财务章">财务章</option>
+                        <option value="合同章">合同章</option>
+						<option value="发票章">发票章</option>
+						<option value="法人章">法人章</option>
                     </select>
                 </div>
+				<div class="line">
+					<select name="cz" style="background-color:white" id="cz">
+						<option value="">请选择刻章材质</option>
+						<option value="有盖铜" style="display:none;">有盖铜</option>
+						<option value="无盖铜" style="display:none;">无盖铜</option>
+						<option value="回墨印" style="display:none;">回墨印</option>
+						<option value="回墨铜" style="display:none;">回墨铜</option>
+						<option value="牛角" style="display:none;">牛角</option>
+						<option value="光敏" style="display:none;">光敏</option>
+						<option value="玉" style="display:none;">玉</option>
+						<option value="白牛角" style="display:none;">白牛角</option>
+						<option value="仿牛角" style="display:none;">仿牛角</option>
+						<option value="精致雕刻木" style="display:none;">精致雕刻木</option>
+						<option value="红木" style="display:none;">红木</option>
+						<option value="精致雕刻石" style="display:none;">精致雕刻石</option>
+					</select>
+				</div>
                 <div class="line">
                     <select name="fs" onchange="sd()" style="background-color: white">
                         <option value="">请选择收件方式</option>
