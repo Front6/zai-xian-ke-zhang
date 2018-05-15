@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no">
     <meta name="format-detection" content="telephone=no">
     <link href="css/font-awesome.min.css" rel="stylesheet">
-    <title>在线刻章填表</title>
 </head>
 <?php
 header('Content-type:text/html; Charset=utf-8');
@@ -260,10 +259,10 @@ class WxpayService
     }
 }
 ?>
+<title>在线刻章填表</title>
 <link rel="stylesheet" type="text/css" href="css/style.css">
 <!-- 从官方下载的文件放在项目的 jquery-mobile 目录中 -->
 <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
-<script type="text/javascript" src="area.js"></script>
 <script>
     function jc() {
         if (form1.fs.value=="yj"){
@@ -336,47 +335,90 @@ class WxpayService
     function sd() {
         if(form1.fs.value=="yj") {
             document.getElementById("dz").style.display = "";
-            _init_area();
         }
         else{document.getElementById("dz").style.display = "none"};
     }
 	function dcz(){
         if(form1.kzt.value=="公章"||form1.kzt.value=="财务章"||form1.kzt.value=="合同章") {
-            form1.cz1.text="请选择刻章材质";
-            form1.cz1.value="";
-            document.getElementById("gch").style.display = "";
-            document.getElementById("fp").style.display = "none";
-            document.getElementById("fr").style.display = "none";
-            document.getElementById('gln').style.display = "none";
-            document.getElementById('fln').style.display = "none";
+            form1.cz.text="请选择刻章材质";
+            form1.cz.value="";
+            document.getElementById("ygt").style.display = "";
+            document.getElementById("wgt").style.display = "";
+            document.getElementById("hmy").style.display = "";
+            document.getElementById("hmt").style.display = "";
+            document.getElementById("nj").style.display = "";
+            document.getElementById("gm").style.display = "";
+            document.getElementById("y").style.display = "";
+            document.getElementById("lfc").style.display = "";
+            document.getElementById("bnj").style.display = "none";
+            document.getElementById("fnj").style.display = "none";
+            document.getElementById("jzm").style.display = "none";
+            document.getElementById("hm").style.display = "none";
+            document.getElementById("jzs").style.display = "none";
+			document.getElementById('gln').style.display = "none";
+			document.getElementById('fln').style.display = "none";
         }
 		if(form1.kzt.value=="公章") {
             document.getElementById('gln').style.display = "";
 			document.getElementById('fln').style.display = "none";
         }
         if(form1.kzt.value=="发票章") {
-            form1.cz2.text="请选择刻章材质";
-            form1.cz2.value="";
-            document.getElementById('gln').style.display = "none";
-            document.getElementById('fln').style.display = "none";
-            document.getElementById("gch").style.display = "none";
-            document.getElementById("fp").style.display = "";
-            document.getElementById("fr").style.display = "none";
+            form1.cz.text="请选择刻章材质";
+            form1.cz.value="";
+            document.getElementById("hmy").style.display = "";
+            document.getElementById("ygt").style.display = "none";
+            document.getElementById("wgt").style.display = "none";
+            document.getElementById("hmt").style.display = "none";
+            document.getElementById("nj").style.display = "none";
+            document.getElementById("gm").style.display = "none";
+            document.getElementById("y").style.display = "none";
+            document.getElementById("bnj").style.display = "none";
+            document.getElementById("fnj").style.display = "none";
+            document.getElementById("jzm").style.display = "none";
+            document.getElementById("hm").style.display = "none";
+            document.getElementById("jzs").style.display = "none";
+            document.getElementById("lfc").style.display = "none";
+			document.getElementById('fln').style.display = "none";
+			document.getElementById('gln').style.display = "none";
         }
         if(form1.kzt.value=="法人章") {
             document.getElementById('fln').style.display = "";
 			document.getElementById('gln').style.display = "none";
-            document.getElementById("gch").style.display = "none";
-            document.getElementById("fp").style.display = "none";
-            document.getElementById("fr").style.display = "";
-            form1.cz3.text="请选择刻章材质";
-            form1.cz3.value="";
+            form1.cz.text="请选择刻章材质";
+            form1.cz.value="";
+            document.getElementById("bnj").style.display = "";
+            document.getElementById("nj").style.display = "";
+            document.getElementById("fnj").style.display = "";
+            document.getElementById("y").style.display = "";
+            document.getElementById("jzm").style.display = "";
+            document.getElementById("hm").style.display = "";
+            document.getElementById("hmy").style.display = "";
+            document.getElementById("jzs").style.display = "";
+            document.getElementById("ygt").style.display = "none";
+            document.getElementById("wgt").style.display = "none";
+            document.getElementById("hmt").style.display = "none";
+            document.getElementById("gm").style.display = "none";
+            document.getElementById("lfc").style.display = "none";
         }
 
         if(form1.kzt.value=="") {
-            document.getElementById("gch").style.display = "none";
-            document.getElementById("fp").style.display = "none";
-            document.getElementById("fr").style.display = "none";
+            form1.cz.text="请选择刻章材质";
+            form1.cz.value="";
+            document.getElementById("ygt").style.display = "none";
+            document.getElementById("wgt").style.display = "none";
+            document.getElementById("hmy").style.display = "none";
+            document.getElementById("hmt").style.display = "none";
+            document.getElementById("nj").style.display = "none";
+            document.getElementById("gm").style.display = "none";
+            document.getElementById("y").style.display = "none";
+            document.getElementById("bnj").style.display = "none";
+            document.getElementById("fnj").style.display = "none";
+            document.getElementById("jzm").style.display = "none";
+            document.getElementById("hm").style.display = "none";
+            document.getElementById("jzs").style.display = "none";
+            document.getElementById("lfc").style.display = "none";
+			 document.getElementById('fln').style.display = "none";
+			document.getElementById('gln').style.display = "none";
         }
 	}
 </script>
@@ -427,11 +469,10 @@ class WxpayService
     .U-guodu-box { padding:5px 15px;  background:#3c3c3f; filter:alpha(opacity=90); -moz-opacity:0.9; -khtml-opacity: 0.9; opacity: 0.9;  min-heigh:200px; border-radius:10px;}
     .U-guodu-box div{ color:#fff; line-height:20px; font-size:12px; margin:0px auto; height:100%; padding-top:10%; padding-bottom:10%;}
 </style>
-<body onload="sd();dcz();">
 <div id="container"><div class="page_topbar">
         <div class="title">在线刻章填表</div>
     </div>
-    <form name="form1" method="post" action="http://www.nbzxapi.com/zxkz/phpapi/example/jsapi.php">
+    <form name="form1" action="http://www.nbzxapi.com/zxkz/phpapi/example/jsapi.php">
         <div id="container">
             <div class="address_main">
                 <input type="hidden" id="addressid" value="">
@@ -447,38 +488,24 @@ class WxpayService
                         <option value="">其他类型请联系在线客服</option>
                     </select>
                 </div>
-				<div class="line" id="gch" style="display: none">
-					<select name="cz1" style="background-color:white" id="cz1">
-                        <option value="">请选择刻章材质</option>
-                        <option value="有盖铜">有盖铜</option>
-                        <option value="无盖铜">无盖铜</option>
-                        <option value="回墨印">回墨印</option>
-                        <option value="回墨铜">回墨铜</option>
-                        <option value="牛角">牛角</option>
-                        <option value="光敏">光敏</option>
-                        <option value="玉">玉</option>
-                        <option value="龙凤呈祥章">龙凤呈祥章</option>
+				<div class="line">
+					<select name="cz" style="background-color:white" id="cz">
+						<option value="">请选择刻章材质</option>
+						<option id="ygt" value="有盖铜" style="display:none;">有盖铜</option>
+						<option id="wgt" value="无盖铜" style="display:none;">无盖铜</option>
+						<option id="hmy" value="回墨印" style="display:none;">回墨印</option>
+						<option id="hmt" value="回墨铜" style="display:none;">回墨铜</option>
+						<option id="nj" value="牛角" style="display:none;">牛角</option>
+						<option id="gm" value="光敏" style="display:none;">光敏</option>
+						<option id="y" value="玉" style="display:none;">玉</option>
+						<option id="bnj" value="白牛角" style="display:none;">白牛角</option>
+						<option id="fnj" value="仿牛角" style="display:none;">仿牛角</option>
+						<option id="jzm" value="精致雕刻木" style="display:none;">精致雕刻木</option>
+						<option id="hm" value="红木" style="display:none;">红木</option>
+						<option id="jzs" value="精致雕刻石" style="display:none;">精致雕刻石</option>
+                        <option id="lfc" value="龙凤呈祥章" style="display:none;">龙凤呈祥章</option>
 					</select>
 				</div>
-                <div class="line" id="fp" style="display: none">
-                    <select name="cz2" style="background-color:white" id="cz2">
-                        <option value="">请选择刻章材质</option>
-                        <option value="回墨印">回墨印</option>
-                    </select>
-                </div>
-                <div class="line" id="fr" style="display: none">
-                    <select name="cz3" style="background-color:white" id="cz3">
-                        <option value="">请选择刻章材质</option>
-                        <option value="白牛角">白牛角</option>
-                        <option value="牛角">牛角</option>
-                        <option value="仿牛角">仿牛角</option>
-                        <option value="玉">玉</option>
-                        <option value="精致雕刻木">精致雕刻木</option>
-                        <option value="红木">红木</option>
-                        <option value="回墨印">回墨印</option>
-                        <option value="精致雕刻石">精致雕刻石</option>
-                    </select>
-                </div>
                 <div class="line">
                     <select name="fs" onchange="sd()" style="background-color: white">
                         <option value="">请选择收件方式</option>
@@ -502,6 +529,7 @@ class WxpayService
                         <!-- sel-area -->
                         <select id="s_county" name="s_county" style="background-color: white"></select><br>
                     </div>
+                    <script type="text/javascript" src="js/area.js"></script>
                     <script type="text/javascript">_init_area();</script>
                     <div class="line"><input type="text" placeholder="详细地址" id="address" name="address"></div>
                 </div>

@@ -1,3 +1,7 @@
+<?php
+session_start();
+$_SESSION['cod']=504;
+?>
 <!DOCTYPE html>
     <!-- 作者：mark_wang  QQ:1246107973 -->  
 <html><head>
@@ -14,11 +18,71 @@ $appKey = '1a94549fe97b7e01edee5e6a6828f4cc';   //微信支付申请对应的公
 $apiKey = 'zxkz963852741zxkz741852963fjf666';   //https://pay.weixin.qq.com 帐户设置-安全设置-API安全-API密钥-设置API密钥
 //①、获取用户openid
 $wxPay = new WxpayService($mchid,$appid,$appKey,$apiKey);
-$openId = $_GET['opid'];      //获取openid
+$openId = $_POST['opid'];      //获取openid
 if(!$openId) exit('获取openid失败');
 //②、统一下单
 $outTradeNo = uniqid();     //你自己的商品订单号
-$payAmount = 0.01;          //付款金额，单位:元
+$payAmount;          //付款金额，单位:元
+if($_POST['kzt']=="公章"||$_POST['kzt']=="财务章"||$_POST['kzt']=="合同章"){
+	switch($_POST['cz1']){
+		case "有盖铜":
+		$payAmount = 320;
+		break;
+		case "无盖铜":
+		$payAmount = 280;
+		break;
+		case "回墨印":
+		$payAmount = 280;
+		break;
+		case "回墨铜":
+		$payAmount = 380;
+		break;
+		case "牛角":
+		$payAmount = 230;
+		break;
+		case "光敏":
+		$payAmount = 230;
+		break;
+		case "玉":
+		$payAmount = 280;
+		break;
+		case "龙凤呈祥章":
+		$payAmount = 480;
+		break;
+	}
+}
+    else if($_POST['kzt']=="发票章"){
+        $payAmount = 280;
+    }
+	else if($_POST['kzt']=="法人章"){
+		switch($_POST['cz3']){
+		case "白牛角":
+		$payAmount = 300;
+		break;
+		case "牛角":
+		$payAmount = 80;
+		break;
+		case "仿牛角":
+		$payAmount = 40;
+		break;
+		case "玉":
+		$payAmount = 80;
+		break;
+		case "精致雕刻木":
+		$payAmount = 180;
+		break;
+		case "红木":
+		$payAmount = 120;
+		break;
+		case "回墨印":
+		$payAmount = 120;
+		break;
+		case "精致雕刻石":
+		$payAmount =280;
+		break;
+		}
+	   
+	}
 $orderName = 'zaixiankezhang';    //订单标题
 $notifyUrl = 'http://www.nbzxapi.com/zxkz/phpapi/example/notify.php';     //付款成功后的回调地址(不要有问号)
 $payTime = time();      //付款时间
@@ -85,7 +149,16 @@ border-radius:3px;
                     <?php echo $jsApiParameters; ?>,
                     function(res){
                         WeixinJSBridge.log(res.err_msg);
-                        alert(res.err_code+res.err_desc+res.err_msg);
+                        if (res.err_msg=="get_brand_wcpay_request:cancel"){
+                            alert("未完成支付");
+                        }
+                        else if(res.err_msg=="get_brand_wcpay_request:ok"){
+                            var form = document.getElementById("jsb");
+                            form.submit();
+                        }
+                        else{
+                            alert("未知错误,请重新支付");
+                        }
                     }
                 );
             }
@@ -109,30 +182,167 @@ border-radius:3px;
         <div class="title">在线刻章-支付</div>
     </div>
 	    <div class="address_main">
-     <div>
-    <font color="#9ACD32"><b>该笔订单支付金额为<span style="color:#f00;font-size:20px"><?php echo $payAmount?>元</span>钱,请核对以下信息后再进行支付:</b></font><br/><br/>
-		</div>
+            <div align="center"><font color="#9ACD32"><p style="font-size:24px">该笔订单支付金额为<span style="color:#f00;font-size:26px"><?php echo $payAmount?>元</span>钱</p>请核对以下信息后再进行支付:</b></font></div><br/>
+            <form action="sub.php" method="post" id="jsb" name="jsb">
 		<?php
-		if($_GET['fs']=="yj"){//判断邮寄和自取
-		echo "您选择的刻章类型是:".$_GET['kzt']."<br>";
-		echo "您选择的收件方式是:邮寄<br>";
-		echo "收件人:".$_GET['sjr']."<br>";
-		echo "联系电话:".$_GET['mobile']."<br>";
-		echo "省份:".$_GET['s_province']."<br>";
-		echo "地级市:".$_GET['s_city']."<br>";
-		echo "市、县级市:".$_GET['s_county']."<br>";
-		echo "详细地址:".$_GET['address']."<br>";
+		if($_POST['fs']=="yj"){//判断邮寄和自取
+		if($_POST['kzt']=="公章"){
+		echo "&nbsp;&nbsp;&nbsp;刻章类型:".$_POST['kzt']."<br>";
+		echo "&nbsp;&nbsp;&nbsp;刻章材质:".$_POST['cz1']."<br>";
+		echo "&nbsp;&nbsp;&nbsp;收件方式是:邮寄<br>";
+		echo "&nbsp;&nbsp;&nbsp;收件人:".$_POST['sjr']."<br>";
+		echo "&nbsp;&nbsp;&nbsp;联系电话:".$_POST['mobile']."<br>";
+		echo "&nbsp;&nbsp;&nbsp;省份:".$_POST['s_province']."<br>";
+		echo "&nbsp;&nbsp;&nbsp;地级市:".$_POST['s_city']."<br>";
+		echo "&nbsp;&nbsp;&nbsp;市、县级市:".$_POST['s_county']."<br>";
+		echo "&nbsp;&nbsp;&nbsp;详细地址:".$_POST['address']."<br>";
+		echo "&nbsp;&nbsp;&nbsp;公司名称:".$_POST['gs']."<br>";
+		?>
+		<input type="hidden" value="邮寄" id="fs" name="fs">
+            <input type="hidden" value="<?php echo $_POST['kzt']; ?>" id="kzt" name="kzt">
+            <input type="hidden" value="<?php echo $_POST['cz1'];?>" id="cz" name="cz">
+            <input type="hidden" value="<?php echo $_POST['sjr'];?>" id="sjr" name="sjr">
+            <input type="hidden" value="<?php echo $_POST['mobile'];?>" id="mobile" name="mobile">
+            <input type="hidden" value="<?php echo $_POST['s_province'];?>" id="s_province" name="s_province">
+            <input type="hidden" value="<?php echo $_POST['s_city'];?>" id="s_city" name="s_city">
+            <input type="hidden" value="<?php echo $_POST['s_county'];?>" id="s_county" name="s_county">
+            <input type="hidden" value="<?php echo $_POST['address'];?>" id="address" name="address">
+			<input type="hidden" value="<?php echo $_POST['gs'];?>" id="gs" name="gs">
+		<?php
+		}else if($_POST['kzt']=="法人章"){
+			echo "&nbsp;&nbsp;&nbsp;刻章类型:".$_POST['kzt']."<br>";
+			echo "&nbsp;&nbsp;&nbsp;刻章材质:".$_POST['cz3']."<br>";
+			echo "&nbsp;&nbsp;&nbsp;收件方式是:邮寄<br>";
+			echo "&nbsp;&nbsp;&nbsp;收件人:".$_POST['sjr']."<br>";
+			echo "&nbsp;&nbsp;&nbsp;联系电话:".$_POST['mobile']."<br>";
+			echo "&nbsp;&nbsp;&nbsp;省份:".$_POST['s_province']."<br>";
+			echo "&nbsp;&nbsp;&nbsp;地级市:".$_POST['s_city']."<br>";
+			echo "&nbsp;&nbsp;&nbsp;市、县级市:".$_POST['s_county']."<br>";
+			echo "&nbsp;&nbsp;&nbsp;详细地址:".$_POST['address']."<br>";
+			echo "&nbsp;&nbsp;&nbsp;法人名称:".$_POST['fname']."<br>";
+			?>
+			<input type="hidden" value="邮寄" id="fs" name="fs">
+            <input type="hidden" value="<?php echo $_POST['kzt']; ?>" id="kzt" name="kzt">
+            <input type="hidden" value="<?php echo $_POST['cz'];?>" id="cz" name="cz">
+            <input type="hidden" value="<?php echo $_POST['sjr'];?>" id="sjr" name="sjr">
+            <input type="hidden" value="<?php echo $_POST['mobile'];?>" id="mobile" name="mobile">
+            <input type="hidden" value="<?php echo $_POST['s_province'];?>" id="s_province" name="s_province">
+            <input type="hidden" value="<?php echo $_POST['s_city'];?>" id="s_city" name="s_city">
+            <input type="hidden" value="<?php echo $_POST['s_county'];?>" id="s_county" name="s_county">
+            <input type="hidden" value="<?php echo $_POST['address'];?>" id="address" name="address">
+			<input type="hidden" value="<?php echo $_POST['fname'];?>" id="fname" name="fname">
+			<?php
 		}
+		else if($_POST['kzt']=="财务章"||$_POST['kzt']=="合同章"){
+			echo "&nbsp;&nbsp;&nbsp;刻章类型:".$_POST['kzt']."<br>";
+			echo "&nbsp;&nbsp;&nbsp;刻章材质:".$_POST['cz1']."<br>";
+			echo "&nbsp;&nbsp;&nbsp;收件方式是:邮寄<br>";
+			echo "&nbsp;&nbsp;&nbsp;收件人:".$_POST['sjr']."<br>";
+			echo "&nbsp;&nbsp;&nbsp;联系电话:".$_POST['mobile']."<br>";
+			echo "&nbsp;&nbsp;&nbsp;省份:".$_POST['s_province']."<br>";
+			echo "&nbsp;&nbsp;&nbsp;地级市:".$_POST['s_city']."<br>";
+			echo "&nbsp;&nbsp;&nbsp;市、县级市:".$_POST['s_county']."<br>";
+			echo "&nbsp;&nbsp;&nbsp;详细地址:".$_POST['address']."<br>";
+		?>
+            <input type="hidden" value="邮寄" id="fs" name="fs">
+            <input type="hidden" value="<?php echo $_POST['kzt']; ?>" id="kzt" name="kzt">
+            <input type="hidden" value="<?php echo $_POST['cz'];?>" id="cz" name="cz">
+            <input type="hidden" value="<?php echo $_POST['sjr'];?>" id="sjr" name="sjr">
+            <input type="hidden" value="<?php echo $_POST['mobile'];?>" id="mobile" name="mobile">
+            <input type="hidden" value="<?php echo $_POST['s_province'];?>" id="s_province" name="s_province">
+            <input type="hidden" value="<?php echo $_POST['s_city'];?>" id="s_city" name="s_city">
+            <input type="hidden" value="<?php echo $_POST['s_county'];?>" id="s_county" name="s_county">
+            <input type="hidden" value="<?php echo $_POST['address'];?>" id="address" name="address">
+                <?php
+		}
+        else if($_POST['kzt']=="发票章"){
+            echo "&nbsp;&nbsp;&nbsp;刻章类型:".$_POST['kzt']."<br>";
+            echo "&nbsp;&nbsp;&nbsp;刻章材质:".$_POST['cz2']."<br>";
+            echo "&nbsp;&nbsp;&nbsp;收件方式是:邮寄<br>";
+            echo "&nbsp;&nbsp;&nbsp;收件人:".$_POST['sjr']."<br>";
+            echo "&nbsp;&nbsp;&nbsp;联系电话:".$_POST['mobile']."<br>";
+            echo "&nbsp;&nbsp;&nbsp;省份:".$_POST['s_province']."<br>";
+            echo "&nbsp;&nbsp;&nbsp;地级市:".$_POST['s_city']."<br>";
+            echo "&nbsp;&nbsp;&nbsp;市、县级市:".$_POST['s_county']."<br>";
+            echo "&nbsp;&nbsp;&nbsp;详细地址:".$_POST['address']."<br>";
+            ?>
+            <input type="hidden" value="邮寄" id="fs" name="fs">
+            <input type="hidden" value="<?php echo $_POST['kzt']; ?>" id="kzt" name="kzt">
+            <input type="hidden" value="<?php echo $_POST['cz2'];?>" id="cz" name="cz">
+            <input type="hidden" value="<?php echo $_POST['sjr'];?>" id="sjr" name="sjr">
+            <input type="hidden" value="<?php echo $_POST['mobile'];?>" id="mobile" name="mobile">
+            <input type="hidden" value="<?php echo $_POST['s_province'];?>" id="s_province" name="s_province">
+            <input type="hidden" value="<?php echo $_POST['s_city'];?>" id="s_city" name="s_city">
+            <input type="hidden" value="<?php echo $_POST['s_county'];?>" id="s_county" name="s_county">
+            <input type="hidden" value="<?php echo $_POST['address'];?>" id="address" name="address">
+            <?php
+        }
+		}else{
+		if($_POST['kzt']=="公章"){
+		echo "&nbsp;&nbsp;&nbsp;刻章类型:".$_POST['kzt']."<br>";
+		echo "&nbsp;&nbsp;&nbsp;刻章材质:".$_POST['cz1']."<br>";
+		echo "&nbsp;&nbsp;&nbsp;收件方式是:自取<br>";
+		echo "&nbsp;&nbsp;&nbsp;收件人:".$_POST['sjr']."<br>";
+		echo "&nbsp;&nbsp;&nbsp;联系电话:".$_POST['mobile']."<br>";
+		echo "&nbsp;&nbsp;&nbsp;公司名称:".$_POST['gs']."<br>";
+		?>
+		<input type="hidden" value="自取" id="fs" name="fs">
+            <input type="hidden" value="<?php echo $_POST['kzt']; ?>" id="kzt" name="kzt">
+            <input type="hidden" value="<?php echo $_POST['cz1'];?>" id="cz" name="cz">
+            <input type="hidden" value="<?php echo $_POST['sjr'];?>" id="sjr" name="sjr">
+            <input type="hidden" value="<?php echo $_POST['mobile'];?>" id="mobile" name="mobile">
+			<input type="hidden" value="<?php echo $_POST['gs'];?>" id="gs" name="gs">
+		<?php
+		}else if($_POST['kzt']=="法人章"){
+			echo "&nbsp;&nbsp;&nbsp;刻章类型:".$_POST['kzt']."<br>";
+			echo "&nbsp;&nbsp;&nbsp;刻章材质:".$_POST['cz3']."<br>";
+			echo "&nbsp;&nbsp;&nbsp;收件方式是:自取<br>";
+			echo "&nbsp;&nbsp;&nbsp;收件人:".$_POST['sjr']."<br>";
+			echo "&nbsp;&nbsp;&nbsp;联系电话:".$_POST['mobile']."<br>";
+			echo "&nbsp;&nbsp;&nbsp;法人名称:".$_POST['fname']."<br>";
+			?>
+			<input type="hidden" value="自取" id="fs" name="fs">
+            <input type="hidden" value="<?php echo $_POST['kzt']; ?>" id="kzt" name="kzt">
+            <input type="hidden" value="<?php echo $_POST['cz3'];?>" id="cz" name="cz">
+            <input type="hidden" value="<?php echo $_POST['sjr'];?>" id="sjr" name="sjr">
+            <input type="hidden" value="<?php echo $_POST['mobile'];?>" id="mobile" name="mobile">
+			<input type="hidden" value="<?php echo $_POST['fname'];?>" id="fname" name="fname">
+			<?php
+		}
+        else if($_POST['kzt']=="发票章"){
+            echo "&nbsp;&nbsp;&nbsp;刻章类型:".$_POST['kzt']."<br>";
+            echo "&nbsp;&nbsp;&nbsp;刻章材质:".$_POST['cz2']."<br>";
+            echo "&nbsp;&nbsp;&nbsp;收件方式是:自取<br>";
+            echo "&nbsp;&nbsp;&nbsp;收件人:".$_POST['sjr']."<br>";
+            echo "&nbsp;&nbsp;&nbsp;联系电话:".$_POST['mobile']."<br>";
+            echo "&nbsp;&nbsp;&nbsp;法人名称:".$_POST['fname']."<br>";
+            ?>
+            <input type="hidden" value="自取" id="fs" name="fs">
+            <input type="hidden" value="<?php echo $_POST['kzt']; ?>" id="kzt" name="kzt">
+            <input type="hidden" value="<?php echo $_POST['cz2'];?>" id="cz" name="cz">
+            <input type="hidden" value="<?php echo $_POST['sjr'];?>" id="sjr" name="sjr">
+            <input type="hidden" value="<?php echo $_POST['mobile'];?>" id="mobile" name="mobile">
+            <input type="hidden" value="<?php echo $_POST['fname'];?>" id="fname" name="fname">
+            <?php
+        }
 		else{
-		echo "您选择的刻章类型是:".$_GET['kzt']."<br>";
-		echo "您选择的收件方式是自取<br>";
-		echo "收件人:".$_GET['sjr']."<br>";
-		echo "联系电话:".$_GET['mobile']."<br>";
+			echo "&nbsp;&nbsp;&nbsp;刻章类型:".$_POST['kzt']."<br>";
+			echo "&nbsp;&nbsp;&nbsp;刻章材质:".$_POST['cz1']."<br>";
+			echo "&nbsp;&nbsp;&nbsp;收件方式是:自取<br>";
+			echo "&nbsp;&nbsp;&nbsp;收件人:".$_POST['sjr']."<br>";
+			echo "&nbsp;&nbsp;&nbsp;联系电话:".$_POST['mobile']."<br>";
+		?>
+            <input type="hidden" value="自取" id="fs" name="fs">
+            <input type="hidden" value="<?php echo $_POST['kzt']; ?>" id="kzt" name="kzt">
+            <input type="hidden" value="<?php echo $_POST['cz1'];?>" id="cz" name="cz">
+            <input type="hidden" value="<?php echo $_POST['sjr'];?>" id="sjr" name="sjr">
+            <input type="hidden" value="<?php echo $_POST['mobile'];?>" id="mobile" name="mobile">
+                <?php
+		}
 		}
 		?>
-	<div align="center">
-        <button class="address_sub2" style="width: 95%;background-color:red;color:white;font-weight:bold" onclick="callpay()" >立即支付</button>
-    </div>
+            </form>
+                    <button class="address_sub2" style="width: 95%;background-color:red;color:white;font-weight:bold" onclick="callpay()" >立即支付</button>
     </body>
     </html>
 <?php
@@ -159,7 +369,7 @@ class WxpayService
     public function GetOpenid()
     {
         //通过code获得openid
-        if (!isset($_GET['code'])){
+        if (!isset($_POST['code'])){
             //触发微信返回code码
             $scheme = $_SERVER['HTTPS']=='on' ? 'https://' : 'http://';
             $baseUrl = urlencode($scheme.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].$_SERVER['QUERY_STRING']);
@@ -168,7 +378,7 @@ class WxpayService
             exit();
         } else {
             //获取code码，以获取openid
-            $code = $_GET['code'];
+            $code = $_POST['code'];
             $openid = $this->getOpenidFromMp($code);
             return $openid;
         }
